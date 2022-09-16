@@ -1,0 +1,60 @@
+1.	Download vehicle sales data -> https://github.com/shashank-mishra219/Hive-Class/blob/main/sales_order_data.csv
+
+•	Download raw data and saved as vehicle_sales.csv file in system.
+      
+2. Store raw data in hdfs location.
+   
+•	Change working directory 
+                      cd /tmp
+                      cd hive_class
+                      pwd
+
+•	Transfer file into /tmp/hive_class by FileZilla.
+•	Make new directory in hdfs :  hadoop fs -mkdir /priya
+•	Store file in hdfs location : hadoop fs -put /tmp/hive_class/vehicle_sales.csv /priya
+  
+
+3. Create an internal hive table "sales_order_csv" which will store csv data sales_order_csv make sure to skip header row while creating table.
+
+      Create table sales_data_csv
+      < (
+      < order_number int,
+      <  quantity_ordered int,
+      < price_each float,
+      < orderline_number int,
+      < sales float,
+      < status string,
+      <qtr_id int,
+      < month_id int,
+      < year_id int,
+      < product_line string,
+      < msrp int,
+      < city string)
+      < row format delimited
+      < fields terminated by ‘,’;
+•	Load data local inpath ‘file:///tmp/hive_class/vehicle_sales.csv ‘  into table sales_data_csv;
+•	select * from sales_data.csv;
+
+
+4. Load data from hdfs path into "sales_order_csv"
+
+•	create new table sales_data_from_hdfs in same format
+•	load data inpath ‘/priya/’ into table sales_data_from_hdfs;
+•	for show columns : set hive.cli.print.header =true;
+•	select * from sales_data_from_hdfs;
+
+
+5. Create an internal hive table which will store data in ORC format "sales_order_orc"
+•	create table sales_data_1_orc 
+•	writing same scheme but without using row format delimited  & fields terminated by ‘,’
+•	In the last line , stored as orc;
+
+
+6. Load data from "sales_order_csv" into "sales_order_orc"
+•	from sales_data_csv insert overwrite table sales_data_1_orc select * 
+•	select  * from sales_data_1_orc
+     
+
+Perform below menioned queries on "sales_order_orc" table :
+I did not understand how I will compute these queries from large table. Please explain
+
